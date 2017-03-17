@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务三：表单（三）联动</title>
+	<style type="text/css">
+		body{font-weight: bold;}
+		.warp{
+			width: 1000px;
+			margin: 0 auto;
+			padding-left: 300px;
+		}
+		.check{
+			padding: 50px;
+		}
+		.check input{
+			margin-left: 120px;
+		}
+		.student{
+			padding: 50px;
+		}
+		label{
+			width: 100px;
+			height: 40px;
+			text-align: left;
+			display: inline-block;
+			line-height: 40px;
+		}
+		.student select{
+			width: 200px;
+			height: 40px;float: left;
+			font-size: 18px;
+			border:2px solid #888888;
+			box-shadow: 0px 0px 5px;
+			-webkit-box-box-shadow: 0px 0px 5px;
+			-moz-box-shadow: 0px 0px 5px;
+			line-height: 40px;
+			margin-right: 100px;
+			border-radius: 5px;
+		}
+		.student select option{
+			line-height: 40px;
+			height: 40px;}
+		#school{
+			width: 300px;
+		}
+		.no_student{
+			padding: 50px;
+			display: none;
+		}
+		.no_student input{
+			width: 600px;
+			height: 40px;
+			line-height: 40px;
+			box-shadow: 0px 0px 5px;
+			-webkit-box-box-shadow: 0px 0px 5px;
+			-moz-box-shadow: 0px 0px 5px;
+			border:2px solid #888888;
+			font-size: 18px;
+			border-radius: 5px;
+
+		}
+	</style>
+</head>
+<body>
+		<div class="warp">
+			<div class="check">
+				<input type="radio" name="school_student" id="ss"  checked="checked">
+				<label for="ss">在校生</label>
+				<input type="radio" name="school_student" id="noSs">
+				<label for="noSs">非在校生</label>
+			</div>
+			<div class="student" id="student">
+				<span style="float: left;width: 100px;height: 40px; line-height:40px;">学校</span>
+				<select id="city">
+					<option value="选择城市" selected="selected">选择城市</option>
+					<option value="北京">北京</option>
+					<option value="天津">杭州</option>
+					<option value="上海">上海</option>
+				</select>
+				<select id="school">
+					<option value="选择所在学校" selected="selected">选择所在学校</option>
+				</select>
+			</div>
+			<div class="no_student" id="no_student">
+				<label for="work">就业单位</label>
+				<input type="text" name="work" id="work">
+			</div>
+		</div>
+
+
+
+		<script type="text/javascript">
+			document.getElementById('ss').onclick = function () {
+				document.getElementById('student').style.display = "block";
+				document.getElementById('no_student').style.display = "none";
+			}
+			document.getElementById('noSs').onclick = function () {
+				document.getElementById('student').style.display = "none";
+				document.getElementById('no_student').style.display = "block";
+			}
+
+			//select操作
+			function csChange(){
+
+			var showSchool = [
+			["北京邮电大学","北京大学","清华大学","北京航空航天大学","北京交通大学","北京理工大学","北京科技大学"],
+			["浙江大学","浙江工业大学","杭州电子科技大学","浙江理工大学","中国计量学院","浙江科技学院","浙江海洋学院"],
+			["复旦大学","同济大学","上海交通大学","华东理工大学","上海理工大学","上海海事大学","东华大学"],
+			]
+			var citys = document.getElementById('city');
+			var schools = document.getElementById('school');
+			var citySchools = showSchool[citys.selectedIndex-1];
+				for (var i = 0; i < citySchools.length; i++) {
+					schools[i+1] = new Option(citySchools[i],citySchools[i]);
+				}
+			}
+
+
+			function init(){
+			document.getElementById("city").onchange =  csChange;
+		}
+
+		init();
+		</script>
+</body>
+</html>

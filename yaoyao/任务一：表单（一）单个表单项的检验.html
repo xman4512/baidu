@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<meta charset="utf-8">
+	<title>任务一：表单（一）单个表单项的检验</title>
+	<style type="text/css">
+		.warp{margin: 0 auto;width: 300px;}
+		.blank{padding: 20px;font-weight: bold;height: 50px;width: 300px;}
+		input{border-color: #333333;border-radius: 5px;}
+		p{color: #A0A0A0}
+	</style>
+</head>
+<body>
+	<div class="warp">
+		<form method="post" action="">
+			<div class="blank">
+			<label for="account">名称:</label>
+			<input type="text" name="account" id="account">
+			<input type="button" name="confirmation1" id="confirmation1" value="验证">
+			<p>必填，长度为4~16个字符</p>
+			</div>
+			<div class="blank">
+			<label for="full_name">名称:</label>
+			<input type="text" name="full_name" id="full_name" required="required">
+			<input type="button" name="confirmation2" id="confirmation2" value="验证">
+			<p>必填，长度为4~16个字符</p>
+			</div>
+			<div class="blank">
+			<label for="format">名称:</label>
+			<input type="text" name="format" id="format">
+			<input type="button" name="confirmation3" id="confirmation3" value="验证">
+			<p>必填，长度为4~16个字符</p>
+			</div>
+		</form>
+		</div>
+		<script type="text/javascript">
+			var account = document.getElementById('account');
+			var confirmation1 = document.getElementById('confirmation1');
+			var confirmation2 = document.getElementById('confirmation2');
+			var confirmation3 = document.getElementById('confirmation3');
+			var full_name = document.getElementById('full_name');
+			var format = document.getElementById('format');
+			var p = document.getElementsByTagName('p')
+			//第一个输入框
+			function accountOne() {
+				//查询字符数
+				function A() {
+					var ac = account.value;
+				var len = 0;
+				for (var i = 0; i < ac.length; i++) {
+					if (ac.charCodeAt(i) > 127 || ac.charCodeAt(i) == 94) {
+						len+=2;
+					}else{
+						len+=1;
+					}
+				}
+				return len;
+				}
+				
+				var A = A();
+			   if (A < 4 || A > 16) {
+					p[0].style.color = "red";
+					p[0].innerHTML = "必填，长度为4~16个字符"
+					account.style.borderColor = "red";
+					return false;
+				}else{
+					p[0].style.color = "green";
+					p[0].innerHTML = "名称格式正确"
+					account.style.borderColor = "green";
+					return true;
+				}
+			}
+
+			//第二个输入框
+			function fullname() {
+				//查询字符数
+				function A() {
+					var ac = full_name.value;
+				var len = 0;
+				for (var i = 0; i < ac.length; i++) {
+					if (ac.charCodeAt(i) > 127 || ac.charCodeAt(i) == 94) {
+						len+=2;
+					}else{
+						len+=1;
+					}
+				}
+				return len;
+				}
+				
+				var A = A();
+			   if (A < 4 || A > 16) {
+					p[1].style.color = "red";
+					p[1].innerHTML = "姓名不能为空或字符数不对"
+					full_name.style.borderColor = "red";
+					return false;
+				}else{
+					p[1].style.color = "green";
+					p[1].innerHTML = "名称格式正确"
+					full_name.style.borderColor = "green";
+					return true;
+				}
+			}
+
+			//第三个输入框
+			function formatTo() {
+				//查询字符数
+				function A() {
+					var ac = format.value;
+				var len = 0;
+				for (var i = 0; i < ac.length; i++) {
+					if (ac.charCodeAt(i) > 127 || ac.charCodeAt(i) == 94) {
+						len+=2;
+					}else{
+						len+=1;
+					}
+				}
+				return len;
+				}
+				
+				var A = A();
+				
+			   if (A < 4 || A > 16) {
+					p[2].style.color = "red";
+					p[2].innerHTML = "名称格式不正确"
+					format.style.borderColor = "red";
+					return false;
+				}else{
+					p[2].style.color = "green";
+					p[2].innerHTML = "名称格式正确"
+					format.style.borderColor = "green";
+					return true;
+				}
+			}
+
+			function init() {
+
+				confirmation1.onclick = function () {
+					accountOne();
+					account.value="";
+				}
+				confirmation2.onclick = function () {
+					fullname();
+					full_name.value="";
+				}
+				confirmation3.onclick = function () {
+					formatTo();
+					format.value="";
+				}
+			}
+			init();
+		</script>
+</body>
+</html>

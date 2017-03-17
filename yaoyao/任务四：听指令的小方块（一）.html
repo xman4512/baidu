@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务四：听指令的小方块（一）</title>
+	<style type="text/css">
+	#sq{width: 420px;height: 420px;float: left;}
+		span{width: 40px;height: 40px;display: inline-block;float: left;border:1px solid #000000;}
+		.clear{clear: both;}
+		.sq1{margin: 50px 0 0 100px;}
+		.row{width: 420px;height: 42px;line-height: 42px;margin-left: 42px;}
+		.row li{width: 42px;float: left;list-style: none;text-align: center;}
+		.column{width: 42px;height: 420px;line-height: 42px;float: left;text-align: center;list-style: none;}
+		.box_back{width: 42px;height: 42px;position: relative;}
+		.box_head{width: 42px;height: 11px;background-color: blue;}
+		.box_body{width: 42px;height: 31px;background-color: red}
+	}
+	</style>
+</head>
+<body>
+		<div class="box_back" id="box_back" style="transform:rotate(0deg);left: 252px;top: 252px;">
+        	<div class="box_head"></div>
+        	<div class="box_body"></div>
+        </div>
+        <div class="row">
+				<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li>
+        </div>
+        <div class="column">
+			<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li>
+        </div>
+        <div id="sq">
+	
+        </div>
+        <div class="clear"></div>
+        
+		<div class="sq1">
+		<input type="text" name="order" id="order">
+		<input type="submit" name="handle" id="handle" value="操作">
+		</div>
+		<script type="text/javascript">
+				//多个函数执行
+	         function addLoadEvent(func) {  
+                var oldonload = window.onload;  
+                if (typeof window.onload != 'function') {  
+                  window.onload = func;  
+                   } else {  
+                  window.onload = function() {  
+                    if (oldonload) {  
+                       oldonload();  
+                       }  
+                       func();  
+                     }    
+                  }  
+              }  
+              //自定义表格
+			function product() {
+				for (var i = 0; i < 10; i++) {
+					for (var j = 0; j < 10; j++) {
+						var span = document.createElement("span");
+						span.setAttribute("id","aa"+[i]+[j])
+						document.getElementById('sq').appendChild(span);
+					}
+				}
+			}
+			addLoadEvent(product);
+/*
+方块主函数
+*/   
+            var box = document.getElementById('box_back');
+            /*利用判断是否支持currentStyle（是否为ie）*/
+             /*var finalStyle = box.currentStyle ? box.currentStyle : document.defaultView.getComputedStyle(box, null);*/
+            var x = 4;
+            var y = 5;
+			//操作小方块
+			document.getElementById('handle').onclick = function () {
+				var orderValue = document.getElementById('order').value;
+				switch(orderValue){
+					case "GO":
+					go();
+					break;
+					case "TUN LEF":
+					turn_left();
+					break;
+					case "TUN RIG":
+					turn_right();
+					break;
+					case "TUN BAC":
+					turn_back();
+					break;
+					case "MOV LEF":
+					turn_back();
+					break;
+					case "MOV TOP":
+					turn_back();
+					break;
+					case "TUN BAC":
+					turn_back();
+					break;
+					case "TUN BAC":
+					turn_back();
+					break;
+
+				}
+			}
+			//移动小方块位置
+			function go() {
+				var box_deg = box.style.transform.slice(7,-4);
+				console.log(box_deg);
+				switch(box_deg){
+					case "0":
+					if (x == 0 ) {
+						alert("已在最上方！")
+					}
+					else {
+						x--;
+						box.style.top = (parseInt(box.style.top)-42)+"px";
+					}
+					break;
+					case "90":
+					if (y == 9 ) {
+						alert("已在最右方！")
+					}
+					else {
+						y++;
+						box.style.left = (parseInt(box.style.left)+42)+"px";
+					}
+					break;
+					case "180":
+					if (x == 9 ) {
+						alert("已在最下方！")
+					}
+					else {
+						x++;
+						box.style.top = (parseInt(box.style.top)+42)+"px";
+					}
+					break;
+					case "270":
+					if (y == 0 ) {
+						alert("已在最左方！")
+					}
+					else {
+						y--;
+						box.style.left = (parseInt(box.style.left)-42)+"px";
+					}
+					break;
+
+				}
+			}
+			//旋转小方块
+
+			function turn_left() {        //左转
+				var deg = (box.style.transform.slice(7, -4) - '0' + 270) % 360;  
+    			box.style.transform = "rotate("+ deg +"deg)";
+			}
+			function turn_right() {       //右转
+				var deg = (box.style.transform.slice(7, -4) - '0' + 90) % 360;  
+    			box.style.transform = "rotate("+ deg +"deg)";  
+			}
+			function turn_back() {        //回转
+				var deg = (box.style.transform.slice(7, -4) - '0' + 180) % 360;  
+    			box.style.transform = "rotate("+ deg +"deg)";  
+			}
+		</script>
+</body>
+</html>

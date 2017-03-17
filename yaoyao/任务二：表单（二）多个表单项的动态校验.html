@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务二：表单（二）多个表单项的动态校验</title>
+	<style type="text/css">
+		.warp{
+			width: 800px;
+			margin: 0 auto;
+		}
+		.blank{
+			padding:20px 0 20px 0;
+			font-size: 18px;
+			font-weight: bold;
+			font-family: "微软雅黑"
+		}
+		label{
+			text-align: right;
+			display: inline-block;
+			width: 100px;
+			margin-right: 5px;
+		}
+		input{
+			border:2px solid rgba(100,100,100,.5);
+			border-radius: 5px;
+			width: 500px;
+			height: 30px;
+			box-shadow: 0px 0px 5px rgba(100,100,100,.5) ;
+			-webkit-box-box-shadow: 0px 0px 5px rgba(100,100,100,.5) ;
+			-moz-box-shadow: 0px 0px 5px rgba(100,100,100,.5) ;
+			font-size: 16px;
+			line-height: 50px;
+			margin: 0px;
+			padding-bottom: 5px;
+		}
+		#submit{
+			border:1px solid;
+			border-radius: 5px;
+			width: 100px;
+			height: 40px;
+			background-color: #20b2aa;
+			color: #ffffff;
+			margin-left: 500px;
+			font-size: 18px;
+			padding: 0px;
+			line-height: 40px;
+		}
+		p{
+			margin-left: 120px;
+			color: #888888;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+		<div class="warp" id="warp">
+			<form method="post" action="">
+			<div class="blank">
+				<label for="">名称</label>
+				<input type="text" name="name" id="name">
+			</div>
+			<div class="blank">
+				<label for="">密码</label>
+				<input type="password" name="passWord" id="passWord">
+			</div>
+			<div class="blank">
+				<label for="">密码确认</label>
+				<input type="password" name="passWordConfirm " id="passWordConfirm">
+			</div>
+			<div class="blank">
+				<label for="">邮箱</label>
+				<input type="email" name="email" id="email">
+			</div>
+			<div class="blank">
+				<label for="">手机</label>
+				<input type="text" name="phone" id="phone">
+			</div>
+			<div class="blank">
+				<input type="submit" name="submit" id="submit" value="提交">
+			</div>	
+			</form>
+		</div>
+		<script type="text/javascript">
+			//多个函数执行
+	         function addLoadEvent(func) {  
+                var oldonload = window.onload;  
+                if (typeof window.onload != 'function') {  
+                  window.onload = func;  
+                   } else {  
+                  window.onload = function() {  
+                    if (oldonload) {  
+                       oldonload();  
+                       }  
+                       func();  
+                     }    
+                  }  
+              }  
+
+			var input = document.getElementsByTagName('input');
+			var div = document.getElementsByTagName('div');
+			var count = 0;
+			
+			//姓名
+			function names() {
+				var p = document.createElement("p");
+				input[0].onfocus = function() {
+					p.innerHTML="必填，长度为4~16个字符"
+					div[1].appendChild(p);
+					input[0].style.borderColor = "#46A3ff";
+					input[0].style.boxShadow="0px 0px 5px rgba((70, 163, 255,.5)";
+				}
+				input[0].onblur = function() {
+					var len = 0;
+					for (var i = 0; i < input[0].value.length; i++) {
+					if (input[0].value.charCodeAt(i) > 127 || input[0].value.charCodeAt(i) == 94) {
+						len+=2;
+					}else{
+						len+=1;
+					}
+					}
+					if (len < 4 || len > 16) {
+					p.style.color = "red";
+					p.innerHTML = "必填，长度为4~16个字符"
+					input[0].style.borderColor = "red";
+					count--;
+						}else{
+					p.style.color = "green";
+					p.innerHTML = "名称格式正确"
+					input[0].style.borderColor = "green";
+					count++;
+						}
+				
+				}
+			}
+
+			//密码
+			function passWords() {
+				var p = document.createElement("p");
+				input[1].onfocus = function() {
+					p.innerHTML="请输入密码"
+					div[2].appendChild(p);
+					input[1].style.borderColor = "#46A3ff";
+					input[1].style.boxShadow="0px 0px 5px rgba((70, 163, 255,.5)";
+				}
+				input[1].onblur = function() {
+					var pattern = /^[a-zA-Z0-9]{4,16}$/;
+					if (!pattern.test(input[1].value)) {
+						p.style.color = "red";
+						p.innerHTML = "必填，长度为4~16个字符"
+						input[1].style.borderColor = "red";
+						count--;
+					}else{
+						p.style.color = "green";
+						p.innerHTML = "名称格式正确"
+						input[1].style.borderColor = "green";
+						count++;
+					}
+					
+				}
+			}
+
+			//密码确认
+			function passWordConfirms() {
+				var p = document.createElement("p");
+				input[2].onfocus = function() {
+					p.innerHTML="再输入同样密码"
+					div[3].appendChild(p);
+					input[2].style.borderColor = "#46A3ff";
+					input[2].style.boxShadow="0px 0px 5px rgba((70, 163, 255,.5)";
+				}
+				input[2].onblur = function() {
+					if (input[2].value != "" && input[2].value == input[1].value) {
+						p.style.color = "green";
+						p.innerHTML = "名称格式正确"
+						input[2].style.borderColor = "green";
+						count++;
+					}else{
+						p.style.color = "red";
+						p.innerHTML = "必填，长度为4~16个字符"
+						input[2].style.borderColor = "red";
+						count--;
+					}
+				}
+			}
+
+			//邮箱
+			function emails() {
+				var p = document.createElement("p");
+				input[3].onfocus = function() {
+					p.innerHTML="请输入邮箱"
+					div[4].appendChild(p);
+					input[3].style.borderColor = "#46A3ff";
+					input[3].style.boxShadow="0px 0px 5px rgba((70, 163, 255,.5)";
+				}
+				input[3].onblur = function() {
+					var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+					if (!myreg.test(input[3].value)) {
+						p.style.color = "red";
+						p.innerHTML = "请输入有效的E_mail！"
+						input[3].style.borderColor = "red";
+						count--;
+					}else{
+						p.style.color = "green";
+						p.innerHTML = "名称格式正确"
+						input[3].style.borderColor = "green";
+						count++;
+					}
+				}
+			}
+
+			//手机
+			function phones() {
+				var p = document.createElement("p");
+				input[4].onfocus = function() {
+					p.innerHTML="请输入手机号码"
+					div[5].appendChild(p);
+					input[4].style.borderColor = "#46A3ff";
+					input[4].style.boxShadow="0px 0px 5px rgba((70, 163, 255,.5)";
+				}
+				input[4].onblur = function() {
+					if(!(/^(?:13\d|15[89])-?\d{5}(\d{3}|\*{3})$/.test(input[4].value))){
+        				p.style.color = "red";
+						p.innerHTML = "不是完整的11位手机号或者正确的手机号前七位"
+						input[4].style.borderColor = "red";
+        				count--;
+    				}else{
+    					p.style.color = "green";
+						p.innerHTML = "名称格式正确"
+						input[4].style.borderColor = "green";
+						count++;
+    				}
+				}
+			}
+			//提交检验
+			input[5].onclick = function() {
+				if (count !== 5) {
+					alert("提交失败");
+				}else{
+					alert("提交成功");
+				}
+    			}  
+			addLoadEvent(names());
+			addLoadEvent(passWords());
+			addLoadEvent(passWordConfirms());
+			addLoadEvent(phones());
+			addLoadEvent(emails());
+		</script>
+</body>
+</html>
