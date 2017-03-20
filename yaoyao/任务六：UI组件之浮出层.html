@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务六：UI组件之浮出层</title>
+	
+	<style type="text/css">
+		.popTip{position:fixed;width:400px;height:200px;left:1000%;top:50%;margin-left:-200px;margin-top:-100px;border:1px solid #000000;}
+		.popTip_content{}
+		.popTip_buttom{bottom: 10px;position: absolute;right: 10px;}
+	</style>
+</head>
+<body>
+		<input type="button" name="button" value="弹出层" id="pop">
+		<div class="popTip" id="popTip">
+			<p id="drag_drop" style="cursor:move;">这是一个浮出层</p>
+			<hr>
+			<div class="popTip1">
+			<div class="popTip_content">
+				这是一个浮出层
+			</div>
+			<div class="popTip_buttom">
+				<input type="button" name="button1" value="确认">
+				<input type="button" name="button2" value="取消">
+			</div>
+			</div>
+		</div>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p><p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p><p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+
+		<p>很多紫</p><p>很多紫</p>
+		<p>很多紫</p>
+
+
+		<p>很多紫</p>
+		<p>很多紫</p>
+		<p>很多紫</p>
+
+		<script type="text/javascript" src="drag_drop.js"></script>
+		<script type="text/javascript">
+			document.getElementById('pop').onclick =function () {
+				document.getElementById('popTip').style.left = "50%";
+				
+			}
+			var inputs = document.getElementById('popTip').getElementsByTagName('input');
+			inputs[0].addEventListener("click",function () {
+				alert("确认");
+				document.getElementById('popTip').style.left = "1000%";
+			});
+			inputs[1].addEventListener("click",function () {
+				alert("取消");
+				document.getElementById('popTip').style.left = "1000%";
+			})
+			
+		</script>
+		<script type="text/javascript">
+			var popTips = document.getElementById('popTip');
+			var drag_drops = document.getElementById('drag_drop');
+			startDrag(popTips,drag_drops);
+		</script>
+
+</body>
+</html>
