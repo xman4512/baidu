@@ -5,7 +5,7 @@
 	<title>任务六：UI组件之浮出层</title>
 	
 	<style type="text/css">
-		.popTip{position:fixed;width:400px;height:200px;left:1000%;top:50%;margin-left:-200px;margin-top:-100px;border:1px solid #000000;z-index: 200;background-color: #ffffff;}
+		.popTip{position: fixed;width:400px;height:200px;left:50%;top:50%;margin-left:-200px;margin-top:-100px;border:1px solid #000000;z-index: 200;background-color: #ffffff;visibility:hidden ;}
 		.popTip_content{}
 		.popTip_buttom{bottom: 10px;position: absolute;right: 10px;}
 		.nothing{position: absolute;left: 0;top: 0;background-color: #aaaaaa;opacity: 0.5;z-index: 100;width: 100%;height: 100%;display: none;}
@@ -13,10 +13,10 @@
 </head>
 <body>
 		<input type="button" name="button" value="弹出层" id="pop">
-		<div class="popTip" id="popTip">
-			<p id="drag_drop" style="cursor:move;">这是一个浮出层</p>
+		<div class="popTip" id="popTip" style="transform: scale(1,1);">
+			<div id="drag_drop" style="cursor:move;">这是一个浮出层</div>
 			<hr>
-			<div class="popTip1">
+			<div class="popTip1" class="position:absolute">
 			<div class="popTip_content">
 				这是一个浮出层
 			</div>
@@ -64,28 +64,90 @@
 		<p>很多紫</p>
 		<p>很多紫</p>
 		<p>很多紫</p>
-
 		<script type="text/javascript">
-			document.getElementById('pop').onclick =function () {
-				document.getElementById('popTip').style.left = "50%";
+			/*
+				弹出浮出层和透明罩
+			*/
+				document.getElementById('pop').onclick =function () {
+				document.getElementById('popTip').style.visibility = "visible";
+				document.getElementById('popTip').style.transform = "scale(1,1)";
 				document.getElementById('nothing').style.display = "block";
 				
 			}
+			/*
+			确认和取消
+			*/
 			var inputs = document.getElementById('popTip').getElementsByTagName('input');
 			inputs[0].addEventListener("click",function () {
-				alert("确认");
-				document.getElementById('popTip').style.left = "1000%";
+				document.getElementById('popTip').style.visibility = "hidden";
+				document.getElementById('popTip').style.transform = "scale(0,0)";
 				document.getElementById('nothing').style.display = "none";
 			});
 			inputs[1].addEventListener("click",function () {
-				alert("取消");
-				document.getElementById('popTip').style.left = "1000%";
+				document.getElementById('popTip').style.left = "hidden";
+				document.getElementById('popTip').style.transform = "scale(0,0)";
 				document.getElementById('nothing').style.display = "none";
 			})
+			/*
+			点击透明罩  弹出层透明罩消失
+			*/
 			document.getElementById('nothing').onclick= function () {
-				document.getElementById('popTip').style.left = "1000%";
+				document.getElementById('popTip').style.visibility = "hidden";
+				document.getElementById('popTip').style.transform = "scale(0,0)";
 				document.getElementById('nothing').style.display = "none";
 			}
+
+			/*
+			拖拽函数
+			*/
+		var drugs = function (element,eldrag, callback) {  
+        callback = callback || function () {  
+                }  
+        var param = {  
+            top: 0,  
+            left: 0,  
+            cX: 0,  
+            cY: 0,  
+            pause: false,  
+        };  
+  
+        function getCss(ele, key) {  
+            return ele.currentStyle ? ele.currentStyle[key] : document.defaultView.getComputedStyle(ele, null)[key];  
+        }  
+  
+        var lefts = getCss(element, "left");  
+        var tops = getCss(element, "top");  
+        param.left = lefts !== "auto" ? lefts : 0;  
+        param.top = tops !== "auto" ? tops : 0;  
+        eldrag.onmousedown = function (event) {  
+          //  console.log(1);  
+            param.pause = true;  
+            event = event || window.event;  
+            param.cX = event.clientX;  
+            param.cY = event.clientY;  
+        };  
+        document.onmousemove = function (event) {  
+  
+            event = event || window.event;  
+            if (param.pause) {  
+            //    console.log(2);  
+                var nowX = event.clientX,  
+                    nowY = event.clientY;  
+                var disX = nowX - param.cX,  
+                    disY = nowY - param.cY;  
+                element.style.left = parseInt(param.left) + disX + "px";  
+                element.style.top = parseInt(param.top) + disY + "px";  
+            }  
+        };  
+        document.onmouseup = function () {  
+            //console.log(3);  
+            param.pause = false;  
+            var lefts = getCss(element, "left"),  
+                tops = getCss(element, "top");  
+            param.left = lefts !== "auto" ? lefts : 0;  
+            param.top = tops !== "auto" ? tops : 0;  
+        }  
+    }(document.getElementById("popTip"),document.getElementById('drag_drop'));
 		</script>
 </body>
 </html>

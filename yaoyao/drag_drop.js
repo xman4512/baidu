@@ -1,6 +1,3 @@
-// by zhangxinxu welcome to visit my personal website http://www.zhangxinxu.com/
-// zxx.drag v1.0 2010-03-23 元素的拖拽实现
-
 var params = {
 	left: 0,
 	top: 0,
@@ -10,11 +7,11 @@ var params = {
 };
 //获取相关CSS属性
 var getCss = function(o,key){
-	return o.currentStyle? o.currentStyle[key] : document.defaultView.getComputedStyle(o,false)[key]; 	
+	return o.currentStyle? o.currentStyle[key] : document.getComputedStyle(o,null)[key]; 	
 };
 
 //拖拽的实现
-var startDrag = function(bar, target, callback){
+var startDrag = function(bar, target, callback){                                                                                                                                                                                             
 	if(getCss(target, "left") !== "auto"){
 		params.left = getCss(target, "left");
 	}
