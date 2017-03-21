@@ -100,7 +100,7 @@
 			/*
 			拖拽函数
 			*/
-		var drugs = function (element,eldrag, callback) {  
+		function drugs(element,eldrag, callback) {  
         callback = callback || function () {  
                 }  
         var param = {  
@@ -147,7 +147,8 @@
             param.left = lefts !== "auto" ? lefts : 0;  
             param.top = tops !== "auto" ? tops : 0;  
         }  
-    }(document.getElementById("popTip"),document.getElementById('drag_drop'));
+    };
+    drugs(document.getElementById("popTip"),document.getElementById('drag_drop'));
 		</script>
 </body>
 </html>
