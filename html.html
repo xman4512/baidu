@@ -1,0 +1,169 @@
+<script>
+window.onload=function(){
+var picnum=6;
+var picwidth=1224;
+var picinterval=20;
+var picduration=500;
+var prointerval=20;
+var produration=5000;
+var index=0;
+var imgwrap=document.getElementById('imgwrap');
+var pros=document.getElementsByClassName('pro');
+var navs=document.getElementsByClassName('nav');
+//moveTo(imgwrap,-600,500,20);
+progress(pros[index],produration,prointerval);
+for(var i=0;i<navs.length;i++){
+  navs[i].onclick=function(){
+    index=this.dataset.index;
+    moveTo(imgwrap,-index*picwidth,picduration,picinterval);
+  }
+}
+
+//进度条函数
+function progress(elem,duration,interval){
+  var width=picwidth/picnum;
+  var cover=0;
+  var stepLength=width/(duration/interval);
+  var tempindex=index;
+  var step=function(){
+    if(tempindex!==index){clearInterval(intervalId);elem.style.width='0px';}//点击切换是，index可能会改变，改变后与tempindex不一致，取消原进度条函数
+    if(cover+stepLength<width){
+      elem.style.width=parseFloat(getStyle(elem,'width'))+stepLength+'px';//这里之所以用parseFloat是因为步长太小一次不到1，parseInt之后还是零不会再增长了
+      cover+=stepLength;
+    }else{
+      elem.style.width='0px';
+      clearInterval(intervalId);
+      index++;
+      index=index%picnum;
+      moveTo(imgwrap,-index*picwidth,picduration,picinterval);//进度条执行完后执行图片切换函数
+    }
+  
+  }
+  var intervalId=setInterval(step,interval);
+
+}
+
+//图片移动函数
+function moveTo(elem,to,duration,interval){
+  var currPos=parseInt(getStyle(elem,'left'));
+  var dis=Math.abs(to-currPos);
+  var symbol=(to-currPos)/dis;
+  var stepLength=dis/(duration/interval);
+  var cover=0;
+  var step=function(){
+    if(cover+stepLength<dis){
+      elem.style.left=parseFloat(getStyle(elem,'left'))+stepLength*symbol+'px';
+      cover+=stepLength;
+    }else{
+      elem.style.left=to+'px';
+      clearInterval(intervalId);
+      progress(pros[index],produration,prointerval);//图片切换函数执行完后执行进度条函数
+    }  
+  }
+  var intervalId=setInterval(step,interval);
+
+}
+
+
+//获得元素的样式
+function getStyle(elem,cssname){
+  if(window.getComputedStyle){
+    return window.getComputedStyle(elem)[cssname];
+  }else{
+    return elem.currentStyle[cssname];
+  }
+}
+
+}
+</script>
+
+<script>
+window.onload=function(){
+  var picswrap=document.getElementById('picswrap');
+  var prev=document.getElementById('prev');
+  var next=document.getElementById('next');
+  var picwidth=600;//图片宽度
+  var picnum=5;//图片数量
+  var index=0;
+  var interval=20;//移动时间间隔
+  var duration=500;//移动时间
+  var stoptime=4500;//在一张图片上的停留时间
+  var spans=document.getElementById('controls').getElementsByTagName('span');
+//设定定时切换
+var timer=setInterval(auto,duration+stoptime);
+//给控制点绑定事件
+for(var i=0;i<spans.length;i++){
+  spans[i].onclick=function(){
+    index=this.dataset.index;
+    changeControls();
+    moveTo(picswrap,-index*picwidth,duration,interval);
+  }
+  spans[i].onmouseover=function(){clearInterval(timer);}
+  spans[i].onmouseout=function(){timer=setInterval(auto,duration+stoptime);}
+}
+//给前一页和后一页绑定事件
+next.onclick=function(){
+  index++;
+  index=index%picnum;
+  changeControls();
+  moveTo(picswrap,-index*picwidth,duration,interval);
+}
+prev.onclick=function(){
+  index--;
+  index=index<0?picnum-1:index;
+  changeControls();
+  moveTo(picswrap,-index*picwidth,duration,interval);
+}
+
+//处理控制按钮的颜色
+function changeControls(){
+    for(var i=0;i<spans.length;i++){
+      spans[i].className='';
+    }
+    spans[index].className='on';
+}
+
+
+  function auto(){
+    index++;
+    index=index%picnum;
+    changeControls()
+    moveTo(picswrap,-index*picwidth,duration,interval);
+  }
+  
+  //移到某一个位置
+  function moveTo(elem,to,duration,interval){
+    var currPos=parseInt(getStyle(elem,'left'));
+    var dis=Math.abs(to-currPos);
+    var symbol=(to-currPos)/dis;
+    var cover=0;
+    var stepLength=dis/(duration/interval);
+    var step=function(){
+      if(cover+stepLength<dis){
+        elem.style.left=parseInt(getStyle(elem,'left'))+stepLength*symbol+'px';
+        cover+=stepLength;
+      }else{
+        elem.style.left=to+'px';
+        clearInterval(intervalId);
+      }
+    
+    }
+    var intervalId=setInterval(step,interval);
+  }
+  
+  //获得元素的样式
+  function getStyle(elem,cssname){
+    if(window.getComputedStyle){
+      return window.getComputedStyle(elem)[cssname];
+    }else{
+      return elem.currentStyle[cssname];
+    }
+  }
+
+
+
+
+}
+
+
+</script>

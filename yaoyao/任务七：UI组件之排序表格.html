@@ -11,22 +11,101 @@
 			margin: 0 auto;
 			padding: 0;
 			text-align: center;
+			margin-bottom: 20px;
+			font-weight: bold;
 		}
-		.table_box{
+		.tableBox{
 			margin: 0;
 			padding: 0;
+			-webkit-user-select: none;  /* Chrome all / Safari all /opera15+*/  
+            -moz-user-select: none;     /* Firefox all */  
+            -ms-user-select: none;      /* IE 10+ */  
+            user-select: none;  
+		}
+		.sort-table{
+			margin: 0 auto;
+			cursor: pointer;
+			border-collapse: collapse;
+		}
+		.sort-table th{
+			width: 200px;
+			height: 40px;
+			border: 1px solid black;
+			background-color: #aaa;
+			font-size: 20px;
+			color:#ffffff;
+			-webkit-transition: all .3s ease;
+            -moz-transition: all .3s ease;
+            -o-transition: all .3s ease;
+             transition: all .3s ease;
+		}
+		.sort-table th:hover{
+			background-color: #000000;
+		}
+		.sort-table span{
+			outline:none;
+			float: right;
+			color: #ffffff;
+			line-height: 73px;
+			right: 10px;
+			margin-right: 5px;
+			position: relative;
+			transform:scale(1,1);
+             -ms-transform:scale(1,1);	/* IE 9 */
+             -moz-transform:scale(1,1);	/* Firefox */
+             -webkit-transform:scale(1,1); /* Safari 和 Chrome */
+             -o-transform:scale(1,1);; 	/* Opera */
+             -webkit-transition: all .3s ease;
+            -moz-transition: all .3s ease;
+            -o-transition: all .3s ease;
+             transition: all .3s ease;
+		}
+		.sort-table span:hover{
+			transform:scale(2,2);
+             -ms-transform:scale(2,2);	/* IE 9 */
+             -moz-transform:scale(2,2);	/* Firefox */
+             -webkit-transform:scale(2,2); /* Safari 和 Chrome */
+             -o-transform:scale(2,2);; 	/* Opera */
+             cursor: pointer;
+		}
+		.sort-table td{
+			height: 30px;
+			text-align: center;
+			border: 1px solid black;
+			font-size: 18px;
+			-webkit-transition: all .3s ease;
+            -moz-transition: all .3s ease;
+            -o-transition: all .3s ease;
+             transition: all .3s ease;
+		}
+		.sort-table td:hover{
+			background-color:#ddddff;
+			color: #ffffff
+
 		}
 	</style>
+
 </head>
 <body>
 		<div class="main">任务七：UI组件之排序表格</div>
 		<div class="tableBox" id="tableBox">
 			<!-- 表格 -->
 		</div>
+		<script type="text/javascript" src="3-7.js"></script>
 		<script type="text/javascript">
-			var table = sortTable(
-
-				)
+			var table = SortTable({
+				title:["姓名","语文","数学","物理","生物"," 化学"],//标题
+				isSortable:[false,true,true,true,true,true],//是否可以排序
+				//数据
+				message:[
+					["刘某","90","120","88","77","60"],
+					["徐某","101","105","85","66","100"],
+					["汤某","119","90","75","70","80"],
+					["蔡某","109","85","66","69","70"],
+					["华某","97","89","77","75","59"]
+				]
+			});
+			
 		</script>
 </body>
 </html>
