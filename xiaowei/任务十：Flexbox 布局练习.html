@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务十：Flexbox 布局练习</title>
+	<style type="text/css">
+	@media only screen and (min-width: 640px){
+		.box{
+			display: flex;
+			display: -webkit-flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+		}
+		.box_1{
+			width: 150px;
+			height: 120px;
+			box-sizing: border-box;
+			border:1px solid red;
+			margin: 10px;
+		}
+		.box_2{
+			width: 150px;
+			height: 100px;
+			box-sizing: border-box;
+			border:1px solid red;
+			margin: 10px;
+		}
+		.box_3{
+			width: 150px;
+			height: 40px;
+			box-sizing: border-box;
+			border:1px solid red;
+			margin: 10px;
+		}
+		.box_4{
+			width: 150px;
+			height: 200px;
+			box-sizing: border-box;
+			border:1px solid blue;
+			margin: 10px;
+		}
+	}
+	@media only screen and (max-width: 640px){
+		.box1{
+			display: flex;
+			display: -webkit-flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			align-items: flex-start;
+			padding: 10px;
+		}
+		.box_11{
+			width: 150px;
+			height: 120px;
+			box-sizing: border-box;
+			border:1px solid red;
+			margin: 10px;
+			order: 2
+		}
+		.box_22{
+			width: 150px;
+			height: 100px;
+			box-sizing: border-box;
+			border:1px solid red;
+			margin: 10px;
+			order: 3
+		}
+		.box_33{
+			width: 150px;
+			height: 40px;
+			box-sizing: border-box;
+			border:1px solid red;
+			margin: 10px;
+			order: 4
+		}
+		.box_44{
+			width: 150px;
+			height: 200px;
+			box-sizing: border-box;
+			border:1px solid blue;
+			margin: 10px;
+			order:1;
+		}
+	}
+	</style>
+</head>
+<body>
+		<div class="box box1">
+			<div class="box_1 box_11"></div>
+			<div class="box_2 box_22"></div>
+			<div class="box_3 box_33"></div>
+			<div class="box_4 box_44"></div>
+		</div>
+</body>
+</html>
