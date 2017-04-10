@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>有趣的鼠标悬浮模糊效果</title>
+</head>
+<style type="text/css">
+	.main{
+		width: 500px;
+		height: 300px;
+		overflow: hidden;
+		position: relative;
+		margin: 0 auto;
+	}
+	.warp{
+		width: 500px;
+		height: 300px;
+		background: url(img/xiaoxiong.png) no-repeat;
+		background-size: 100% 100%;
+		
+	}
+	.main:hover .warp{
+		-webkit-filter: blur(10px); /* Chrome, Opera */
+       -moz-filter: blur(10px);
+        -ms-filter: blur(10px);    
+            filter: blur(10px); 
+	}
+	.container::before{
+		content: '';
+		width: 100%;
+		height: 0;
+		left: 0;
+		top: 50%;
+		border:2px solid #ffffff;
+		border-width: 0 2px;
+		position: absolute;
+		transition: all .8s;
+	}
+	.container::after{
+		content: '';
+		width: 0;
+		height: 100%;
+		left: 50%;
+		top: 0;
+		border:2px solid #ffffff;
+		border-width: 2px 0;
+		position: absolute;
+		transition: all .8s;
+	}
+	.main:hover .container::before{
+		 height: 100%;
+  		top: 0;
+	}
+	.main:hover .container::after{
+		 width: 100%;
+  		left: 0;
+	}
+	.container{
+		width: 400px;
+		height: 200px;
+		top: 50px;
+		left: 50px;
+		font-size: 32px;
+		letter-spacing: 5px;
+		position: absolute;
+		text-align: center;
+		visibility: hidden;
+		background-image: -webkit-linear-gradient(left,#3498db, #f47920 10%, #d71345 20%, #f7acbc 30%, #ffd400 40%, #3498db 50%, #f47920 60%, #d71345 70%, #f7acbc 80%, #ffd400 90%, #3498db);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color:transparent;
+		background-size: 200% 100%;
+		animation: streamer 3s infinite linear;
+	}
+	@keyframes streamer {
+    0%  {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
+	.main:hover .container{
+		visibility: visible;
+	}
+</style>
+<body>
+<div class="main">
+	<div class="warp"></div>
+	<div class="container">
+		<p>欢迎参加百度技术学院</p>
+		<p>点击进入</p>
+	</div>
+</div>
+
+</body>
+</html>
