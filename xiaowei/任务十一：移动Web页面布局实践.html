@@ -220,13 +220,134 @@
     	}
     	.cl-num1{
     		flex-basis: 33%;
-    		background-color:red;
     		height: 10rem;
+    		padding: .5rem;
+    		box-sizing: border-box;
+    		display: flex;
+    		flex-direction: column;
+    	}
+    	.cl_img{
+    		background-color: red;
+    		flex-grow:10;
+    	}
+    	.cl_title{
+    		flex-grow: 2;
+    		display: flex;
+    		justify-content: center;
+    		align-items: center;
+    		background-color: blue;
+    	}
+    	.cl_article{
+    		flex-grow: 1;
+    		display: flex;
+    		justify-content: center;
+    		align-items: center;
+    		background-color: green;
     	}
     	.hr-row{
     		flex-basis: .5%;
     		background-color: #aaaaaa;
     		height: 10rem;
+    	}
+    	.hrs{
+    		width: 100%;
+    		height: .5rem;
+    		background-color: #aaaaaa;
+    	}
+    	.module{
+    		padding: .5rem;
+    		display: flex;
+    		flex-direction: column;
+    		justify-content: space-around;
+    	}
+    	.module-header{
+    		height: 2rem;
+    		line-height: 2rem;
+    		box-sizing: border-box;
+    		border-bottom: 1px solid #aaaaaa;
+
+    	}
+    	.module-content1{
+    		flex-grow: 1;
+    		display: flex;
+    		height: 10rem;
+    		padding-top:1rem;
+    		justify-content: space-between;
+
+    	}
+    	.mc_img{
+    		height: 100%;
+    		flex-grow: 1;
+    		flex-basis: 33.3%;
+    		margin-right: 1rem;
+    		background: url(img/two.jpg) no-repeat;
+    		background-size: 100% 100%;
+    		
+    	}
+    	.mc_list{
+    		display: flex;
+    		flex-basis: 66.6%;
+    		flex-grow:1;
+    		flex-wrap: wrap;
+    		justify-content: space-around;
+    	}
+    	.mc_list li{
+    		flex-basis: 45%;
+    		height: 4.5rem;
+    		line-height: 4.5rem;
+    		text-align: center;
+    		margin-bottom: 1rem;
+    		background-color: #aaaaaa;
+    	}
+    	.article{
+    		display: flex;
+    		flex-direction: row;
+    		padding:0.5rem;
+    		border-bottom: 1px solid #aaaaaa;
+    	}
+    	.article_img{
+    		width: 40%;
+    		height: 8rem;
+    		background: url(img/two.jpg);
+    		background-size: 100% 100%;
+    	}
+    	.article_conent{
+    		width: 60%;
+    		height: 8rem;
+    	}
+    	.article_title{
+    		font-size: 1.375rem;
+    		height: 6rem;
+    		text-indent: .5rem;
+    	}
+    	.article_time{
+    		height: 2rem;
+    		line-height: 2rem;
+    		text-indent: .5rem;
+    		color: #aaaaaa;
+    	}
+    	.article2{
+    		height: 10rem;
+    		padding: .5rem;
+    	}
+    	.article2_title{
+    		height: 2rem;
+    		line-height: 2rem;
+    		font-size: 1.375rem;
+    	}
+    	.article2_img{
+    		display: flex;
+    		justify-content: space-between;
+    	}
+    	.article2_img img{
+    		width: 30%;
+    		height: 8rem;
+    	}
+    	footer{
+    		width: 100%;
+    		height: 5rem;
+    		background-color: #aaaaaa;
+
     	}
     </style>
 <body>	
@@ -279,28 +400,82 @@
 		<!-- 分栏 -->
 		<div class="cl-num">
 			<div class="cl-num1">
-				<li></li><li></li><li></li>
+				<li class="cl_img"></li>
+				<li class="cl_title">分栏1</li>
+				<li class="cl_article">分栏小标题</li>
 			</div>
 			<div class="hr-row"></div>
-			<div class="cl-num1"></div>
+			<div class="cl-num1">
+				<li class="cl_img"></li>
+				<li class="cl_title">分栏1</li>
+				<li class="cl_article">分栏小标题</li>
+			</div>
 			<div class="hr-row"></div>
-			<div class="cl-num1"></div>
+			<div class="cl-num1">
+				<li class="cl_img"></li>
+				<li class="cl_title">分栏1</li>
+				<li class="cl_article">分栏小标题</li>
+			</div>
 		</div>
+		<div class="hrs"></div>
 		<!-- 模块1 -->
-		<div class="module-1">
-			
+		<div class="module">
+			<div class="module-header">模板一</div>
+			<div class="module-content1">
+				<div class="mc_img"></div>
+				<div class="mc_list">
+					<li>这是文案</li>
+					<li>这是文案</li>
+					<li>这是文案</li>
+					<li>这是文案</li>
+				</div>
+			</div>
 		</div>
+		<div class="hrs"></div>
 		<!-- 模块2 -->
-		<div class="module-2">
-			
+		<div class="module">
+			<div class="module-header">模板二</div>
+			<div class="module-content1">
+				<div class="mc_img"></div>
+				<div class="mc_list">
+					<li>这是文案</li>
+					<li>这是文案</li>
+					<li>这是文案</li>
+					<li>这是文案</li>
+				</div>
+			</div>
 		</div>
+		<div class="hrs"></div>
 		<!-- 文章二 -->
 		<div class="article1">
-			
+		<div class="article">
+			<div class="article_img">
+				
+			</div>
+			<div class="article_content">
+				<div class="article_title">这个是文章标题</div>
+				<div class="article_time">文章来源&nbsp;&nbsp;6分钟前</div>
+			</div>
+		</div>	
+		<div class="article">
+			<div class="article_img">
+				
+			</div>
+			<div class="article_content">
+				<div class="article_title">这个是文章标题</div>
+				<div class="article_time">文章来源&nbsp;&nbsp;6分钟前</div>
+			</div>
+		</div>	
 		</div>
 		<!-- 文章一 -->
 		<div class="article2">
-
+			<div class="article2_title">这个是文章标题</div>
+			<div class="article2_img">
+			<img src="img/two.jpg" alt="图片">
+			<img src="img/two.jpg" alt="图片">
+			<img src="img/two.jpg" alt="图片">
+			</div>
+			<div class="article_time">文章来源&nbsp;&nbsp;6分钟前</div>
 		</div>
 		<footer>
 			
