@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务十二学习CSS 3的新特性</title>
+	<style type="text/css">
+		tr:nth-child(2),tr:nth-child(3),tr:nth-child(4){color: red;}
+		tr:nth-child(odd){background-color: #aaaaaa;}
+		th{background-color: #000000;color: #ffffff;margin: 1px;}
+		.pic{width: 200px;height: 100px;position: relative;overflow: hidden;background-color: #aaaaaa;}
+		.pic ul{width: 600px;height: 100px;transition: left 1s;position: relative;padding: 0;margin: 0;}
+		.pic ul li{float: left;list-style: none;}
+		.one{width: 200px;height: 100px;background-color: red;}
+		.two{width: 200px;height: 100px;background-color: blue;}
+		.three{width: 200px;height: 100px;background-color: green;}
+		.tag{position: absolute;bottom:0;right:0;}
+		.tag li{display: inline-block;background-color: #ffffff;opacity: 0.5;width: 30px;text-align: center;}
+		.tag li a{text-decoration: none;width: 100%;height: 100%}
+		#one:target ~  ul{left: 0}
+		#two:target ~  ul{left: -200px;}
+		#three:target ~  ul{left: -400px;}
+		.input{width: 100px;transition: width 2s;}
+		.input:focus{width: 200px;}
+	</style>
+</head>
+<body>
+		<table>
+			<tbody>
+			<tr>
+				<th>排名</th>
+				<th>网站</th>
+				<th>热度</th>
+			</tr>
+			<tr>
+				<td>1.</td>
+				<td>百度前端技术学院</td>
+				<td>13000</td>
+			</tr>
+			<tr>
+				<td>2.</td>
+				<td>百度前端技术学院</td>
+				<td>12000</td>
+			</tr>
+			<tr>
+				<td>3.</td>
+				<td>百度前端技术学院</td>
+				<td>11000</td>
+			</tr>
+			<tr>
+				<td>4.</td>
+				<td>百度前端技术学院</td>
+				<td>10000</td>
+			</tr>
+			<tr>
+				<td>5.</td>
+				<td>百度前端技术学院</td>
+				<td>9000</td>
+			</tr>
+			<tr>
+				<td>6.</td>
+				<td>百度前端技术学院</td>
+				<td>8000</td>
+			</tr>
+			<tr>
+				<td>7.</td>
+				<td>百度前端技术学院</td>
+				<td>7000</td>
+			</tr>
+			<tr>
+				<td>8.</td>
+				<td>百度前端技术学院</td>
+				<td>6000</td>
+			</tr>
+			<tr>
+				<td>9.</td>
+				<td>百度前端技术学院</td>
+				<td>5000</td>
+			</tr>
+			<tr>
+				<td>10.</td>
+				<td>百度前端技术学院</td>
+				<td>4000</td>
+			</tr>
+			</tbody>
+		</table>
+		<input type="text" name="input" class="input">
+
+
+		<div class="pic">
+			<span id="one" hidden></span>
+			<span id="two" hidden></span>
+			<span id="three" hidden></span>
+		<ul>
+			<li class="one"></li>
+			<li class="two"></li>
+			<li class="three"></li>
+		</ul>
+		<div class="tag">
+			<li><a href="#one" class="target1">1</a></li>
+			<li><a href="#two" class="target2">2</a></li>
+			<li><a href="#three" class="target3">3</a></li>
+		</div>
+		</div>
+		
+</body>
+</html>
