@@ -112,6 +112,17 @@
 			return event.keyCode;
 		}
 	},
+	setTimeout:function(fun, delay) {
+    if(typeof fun == 'function'){
+      var argu = Array.prototype.slice.call(arguments,2);
+       var f = (function(){
+      fun.apply(null, argu);
+      }
+    );
+     return window.setTimeout(f, delay);
+   }
+   return window.setTimeout(fun,delay);
+}
 };
 	window.util = util;
 })(window, undefined);

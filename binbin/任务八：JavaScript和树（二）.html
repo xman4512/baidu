@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务八：JavaScript和树（二）</title>
+	<style type="text/css">
+		
+		.box{
+			flex-grow: 1;
+			height: 80%;
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: column;
+			border:2px solid #000000;
+			margin: 10px;
+		}
+		.box1{
+			height: 200px;
+			border:2px solid #000000;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+		<div class="box1 box" id="box1">super
+			<div class="box2 box">coo
+				<div class="box5 box">apple
+					<div class="box10 box">pecr</div>
+					<div class="box11 box">pig</div>
+					<div class="box12 box">cola</div>
+					<div class="box13 box" >soccer</div>
+				</div>
+				<div class="box6 box">phone</div>
+				<div class="box7 box">bs
+					<div class="box14 box">book</div>
+					<div class="box15 box">school</div>
+				</div>
+			</div>
+			<div class="box3 box">note
+				<div class="box8 box">human
+					<div class="box16 box">code</div>
+					<div class="box17 box">operate</div>
+					<div class="box18 box">man</div>
+				</div>
+				<div class="box9 box">progranm
+					<div class="box19 box">element
+						<div class="box21 box">cat</div>
+					</div>
+					<div class="box20 box">class</div>
+				</div>
+			</div>
+			<div class="box4 box" >fish</div>
+		</div>
+
+
+		<div class="box_btn">
+			<input type="button" name="" id="parse" value="递归实现">
+			<input type="button" name="" id="iterator1" value="非递归广度优先实现">
+			<input type="button" name="" id="iterator2" value="非递归深度优先实现"><br/>
+			<input type="text" name="search" id="search">
+		</div>
+</body>
+<script type="text/javascript">
+    /*var treeNodes = [
+       {
+            id: 1,
+            name: '1',
+            children: [
+                 {
+                      id: 11,
+                      name: '11',
+                      children: [
+                           {
+                                id: 111,
+                                name: '111',
+                                children:[]
+                           },
+                           {
+                                id: 112,
+                                name: '112'
+                           }
+                      ]
+                 },
+                 {
+                      id: 12,
+                      name: '12',
+                      children: []
+                 }
+            ],
+            users: []
+       },
+       {
+            id: 2,
+            name: '2',
+            children: [
+                {
+                    id: 22,
+                    name: '22',
+                    children: []
+                }
+            ]
+       }
+    ];*/
+    //递归实现
+    var parseTreeJson = function(treeNodes,arr){
+       if (!treeNodes || !treeNodes.length) return;
+
+       for (var i = 0, len = treeNodes.length; i < len; i++) {
+
+            var childs = treeNodes[i].children;
+            //console.log(treeNodes[i]);
+            arr.push(treeNodes[i]);
+            if(childs && childs.length > 0){
+                 parseTreeJson(childs,arr);
+            }
+       }
+    };
+    console.log('------------- 递归实现 ------------------');
+    //parseTreeJson(treeNodes,arr);
+    //非递归广度优先实现
+    var iterator1 = function (treeNodes,arr) {
+        if (!treeNodes || !treeNodes.length) return;
+
+        var stack = [];
+
+        //先将第一层节点放入栈
+        for (var i = 0, len = treeNodes.length; i < len; i++) {
+            stack.push(treeNodes[i]);
+            console.log(treeNodes[i]);
+        }
+
+        var item;
+
+        while (stack.length) {
+            item = stack.shift();
+
+            //console.log(item);
+            arr.push(item)
+
+            //如果该节点有子节点，继续添加进入栈底
+            if (item.children && item.children.length) {
+                len = item.children.length;
+
+                 for (i = 0; i < len; i++) {
+                 stack.push(item.children[i]);
+                 }
+
+                //stack = stack.concat(item.children);
+            }
+        }
+    };
+
+    console.log('------------- 非递归广度优先实现 ------------------');
+    //iterator1(treeNodes);
+
+    //非递归深度优先实现
+    var iterator2 = function (treeNodes,arr) {
+        if (!treeNodes || !treeNodes.length) return;
+
+        var stack = [];
+
+        //先将第一层节点放入栈
+        for (var i = 0, len = treeNodes.length; i < len; i++) {
+            stack.push(treeNodes[i]);
+        }
+
+        var item;
+        
+        while (stack.length) {
+            item = stack.shift();
+
+            //console.log(item.firstChild.data);
+            arr.push(item);
+            //s.push(item.firstChild.data.replace(/(^\s*)|(\s*$)/g, ""));
+            //console.log(s);
+            //如果该节点有子节点，继续添加进入栈顶
+            if (item.children && item.children.length) {
+                 len = item.children.length;
+
+                 for (; len; len--) {
+                  stack.unshift(item.children[len - 1]);
+                 }
+                //stack = item.children.concat(stack);
+            }
+        }
+    };
+
+    console.log('------------- 非递归深度优先实现 ------------------');
+    //iterator2(treeNodes);
+
+    /*
+    修改样式
+    */
+    function changeStyle(e) {
+    	var nodeArr = document.querySelectorAll('.box');
+    	for(var j = 0;j < nodeArr.length; j++){
+            		nodeArr[j].style.backgroundColor = '#fff';
+        		}
+				e.style.backgroundColor = '#000';
+    }
+    /*匹配输入值*/
+    function switchInput(arr,i) {
+    	var inputs =  document.getElementById('search').value;
+    	if (inputs !== "") {
+    	for (var j = 0; j < arr.length; j++) {
+    		if (inputs == arr[j].firstChild.nodeValue.replace(/(^\s*)|(\s*$)/g, "")) {
+    			arr.length = j+1;
+    				setAction(arr,i,"red");
+    		}
+    	}
+    	}else{
+    		setAction(arr,i,'#fff');
+    	}
+    }	
+    /*
+    遍历动画
+    */
+    function setAction(arr,i,color) {
+    	var timer = setInterval(function () {
+            if(i > arr.length -1 ){
+                arr[arr.length -1].style.backgroundColor = color;
+                clearInterval(timer);
+                return
+            }
+            else {
+                changeStyle(arr[i]);
+			}
+            i++;
+        },1000);
+    }
+    /*
+    按钮操作
+    */
+    function btnOk(root,fn) {
+    	var arr = [];
+        var i = 0;
+        fn(root,arr);
+        switchInput(arr,i)
+        console.log(arr);
+    }
+    /*
+    	按钮事件
+    */
+    function init() {
+    	var box = document.getElementById("box1");
+    		var s =[];
+    		s.push(box);
+    		parse = document.getElementById('parse'),
+    		iterator11 = document.getElementById('iterator1'),
+    		iterator21 = document.getElementById('iterator2');
+    		parseSearch = document.getElementById('parseSearch'),
+    		iterator11Search = document.getElementById('iterator1Search'),
+    		iterator21Search = document.getElementById('iterator2Search');
+    	parse.addEventListener("click",function() {
+    		btnOk(s,parseTreeJson);
+    	});
+    	iterator11.addEventListener("click",function() {
+    		btnOk(s,iterator1);
+    	});
+    	iterator21.addEventListener("click",function() {
+    		btnOk(s,iterator2);
+    	});
+    }
+    init();
+</script>
+</html>

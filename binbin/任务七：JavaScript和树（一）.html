@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务七：JavaScript和树（一）</title>
+	<style type="text/css">
+		.box1{
+			width: 600px;
+			height: 300px;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			border:1px solid #000000;
+			margin: 0 auto;
+			transition: all .8s;
+		}
+		.box2,.box3{
+			width: 250px;
+			height: 200px;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			border:1px solid #000000;
+			transition: all .8s;
+
+		}
+		.box4,.box5,.box6,.box7{
+			width: 80px;
+			height: 150px;
+			border:1px solid #000000;
+			transition: all .8s;
+		}
+	</style>
+</head>
+<body>
+		<div class="box1" id="box1">
+			<div class="box2">
+				<div class="box4"></div>
+				<div class="box5"></div>
+			</div>
+			<div class="box3">
+				<div class="box6"></div>
+				<div class="box7"></div>
+			</div>
+		</div>
+
+		<div class="btn">
+			<input type="button" name="first" id="first" value="先序遍历">
+			<input type="button" name="center" id="center" value="中序遍历">
+			<input type="button" name="last" id="last" value="后序遍历">
+		</div>
+</body>
+<script type="text/javascript">
+		//先序遍历
+		function preOrder(node,arr) { 
+ 			if (node) {  
+ 			 arr.push(node);
+ 			 preOrder(node.firstElementChild,arr);
+ 			 preOrder(node.lastElementChild,arr);
+ 			}
+		}
+		//中序遍历
+		function inOrder(node,arr) { 
+ 			if (node) {
+			  inOrder(node.firstElementChild,arr);  
+			  arr.push(node);
+			  inOrder(node.lastElementChild,arr);
+			 }
+			}
+		//后序遍历
+		function postOrder(node,arr) { 
+			 if (node) {
+			  postOrder(node.firstElementChild,arr);
+			  postOrder(node.lastElementChild,arr);  
+			  arr.push(node);
+			 }
+			}
+
+
+		function changeStyle(el) {
+        for(var i = 0;i < nodeArr.length; i++){
+            nodeArr[i].style.backgroundColor = '#fff';
+        }
+			el.style.backgroundColor = '#000';
+		}
+		//修改样式
+		function setAction(arr,i) {
+				var timer = setInterval(function () {
+            if(i > arr.length -1 ){
+                arr[arr.length -1].style.backgroundColor = "#fff";
+                clearInterval(timer);
+                return
+            }
+            else {
+                for(var j = 0;j < arr.length; j++){
+            		arr[j].style.backgroundColor = '#fff';
+        		}
+				arr[i].style.backgroundColor = '#000';
+			}
+            i++;
+        },1000);
+		}
+
+		 //按钮事件
+    	function btnOK(root,fn) {
+        var arr = [];
+        var i = 0;
+        fn(root,arr);
+        setAction(arr,i);
+
+    }
+		//button
+		function init() {
+			var box = document.getElementById('box1');
+				first = document.querySelector("#first"),
+				center = document.querySelector("#center"),
+				last = document.querySelector("#last");
+
+			first.onclick = function () {
+				 btnOK(box,preOrder);
+			}
+			center.onclick = function () {
+				btnOK(box,inOrder);
+			}
+			last.onclick = function () {
+				btnOK(box,postOrder);
+			}
+		}
+		init();
+</script>
+</html>
