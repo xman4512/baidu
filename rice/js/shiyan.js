@@ -1,132 +1,77 @@
-"use strict"
-/* 此文件为一些过渡性代码 */
-/*use ES5 defineProperty*/
-function Observer (data) {
+function Observer(data, parent, parentKey) {
+  this.parent = parent
+  this.parentKey = parentKey
+  //console.log(this.parent,this.parentKey);
   this.data = data;
-  this.dep = new Dep();
-
-  if(Array.isArray(data)){
-    //暂不考虑数组
-  }else{
-    this.makeObserver(data);
+  this.watch = {}; // 所有变化监听事件
+  this.walk(data)
+}
+let p = Observer.prototype;
+p.walk = function(obj) {
+  for (let key in obj) {
+    val = obj[key];
+    this.convert(key, val);
+    //console.log(this,key,val)
+    if (typeof val === 'object') {
+      new Observer(val, this, key)
+    }
   }
 }
-
-Observer.prototype.setterAndGetter = function (key, val) {
-  let dep = new Dep();
-  if(typeof val === 'object'){
-    var childOb = new Observer(val);
-  }
-
+p.convert = function(key, val) {
+  this.$watch(key, function(newVal){ // 为每个值设置一个监听事件
+    console.log(`你设置了 ${key}, 新的值为${newVal}`);
+  })
+  var self = this;// *获取上下文
   Object.defineProperty(this.data, key, {
     enumerable: true,
     configurable: true,
-    get: function(){
-      console.log('你访问了' + key);
-
-      if(Dep.target){
-        dep.depend();
-        if(childOb){
-          childOb.dep.depend();
-        }
-      }
-      return val;
+    get: function() {
+      console.log(`你访问了 ${key}`);
+      return val
     },
-    set: function(newVal){
-      console.log('你设置了' + key);
-      console.log('新的' + key + '=' + newVal);
-
-      if(newVal === val) return
-      val = newVal;
-
-      if(typeof val === 'object'){
-        childOb = new Observer(newVal);
+    set: function(newVal) {
+      if (self.parent != null) { // 若有父类则会调用父类的监听事件
+        self.parent.watch[self.parentKey](newVal) // 父类监听事件
       }
-
-      dep.notify();
+      self.watch[key](newVal) // 回调监听 取代下面那条语句
+      //console.log(`你设置了 ${key}, 新的值为${newVal}`);
+      if (typeof newVal === 'object') {
+        new Observer(newVal)
+      }
+      if (newVal === val) return;
+      val = newVal
     }
   })
-}
-Observer.prototype.makeObserver = function (obj) {
-  let val;
-  for(let key in obj){
-    if(obj.hasOwnProperty(key)){
-      val = obj[key];
-      //深度遍历
-      if(typeof val === 'object'){
-        new Observer(val);
-      }
-    }
-    this.setterAndGetter(key, val);
-  }
-}
-Observer.prototype.$watch = function(attr, callback){
-  //this.eventsBus.on(attr, callback);
-  for(let key in this.data){
-    if(this.data.hasOwnProperty(key) && typeof this.data[key] === 'object'){
-      this.data[key].__ob__.eventsBus.on(attr, callback);
-    }
-  }
+};
+p.$watch = function (key, callback) {
+  this.watch[key] = callback
 }
 
-//观察者
-function Dep(){
-  this.subs = [];
-}
-Dep.target = null;
-
-Dep.prototype.depend = function(){
-  Dep.target.addDep(this);
-}
-
-Dep.prototype.addSub = function(sub){
-  this.subs.push(sub);
-}
-Dep.prototype.notify = function(){
-  for(let i = 0, len = this.subs.length; i < len; i++ ){
-    this.subs[i].update();
-  }
-}
-
-
-//watcher
-function Watcher(value, attr){
-  this.value = value;
-  this.attr = attr;
-  this.get();
-}
-
-Watcher.prototype.beforeGet = function(){
-  Dep.target = this;
-}
-
-Watcher.prototype.get = function(){
-  this.beforeGet();
-
-  let val = this.value[this.attr];
-
-  if(typeof val === 'object'){
-    for(let childAttr in val){
-      new Watcher(val[childAttr], childAttr);
-    }
-  }
-}
-
-Watcher.prototype.addDep = function(dep){
-  dep.addSub(this);
-  console.log("我订阅了basicInfo的变化")
-}
-Watcher.prototype.update = function(){
-  console.log('name或者age变了，导致basicInfo变了，但是我要根据数据的变化来做一些牛逼的事情');
-}
-
-//测试
+/**
+ * 测试代码
+ */
 let app = new Observer({
-      basicInfo: {
-        name: 'liujianhuan',
-        age: 25
-      },
-      address: 'Beijing'
+  name: {
+    firstName: 'wenjun',
+    lastName: 'dai'
+  },
+  location: {
+    provinces: '浙江省',
+    city: '温州市'
+  },
+  age: 25
 });
-let watcher = new Watcher(app.data, "basicInfo");//我订阅了app.data中的basicInfo的变化
-//name或者age变了，导致basicInfo变了，但是我要根据数据的变化来做一些牛逼的事情
+app.data.name.firstName = 'wj';
+app.data.name.lastName = 'd';
+
+app.$watch('name', function (newName) {
+    console.log('我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。')
+});
+app.$watch('age', function(age) {
+         console.log(`我的年纪变了，现在已经是：${age}岁了`)
+ });
+app.data.age = 100;
+app.data.name.firstName = 'hahaha';
+// 输出：我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。
+app.data.name.lastName = 'blablabla';
+// 输出：我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。
