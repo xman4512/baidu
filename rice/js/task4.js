@@ -71,17 +71,3 @@ exports._compileNode = function (node) {
             return;
     }
 };
-
-function Vue(id,data) {
-	
-}
-
-let app = new Vue({
-  el: '#app',
-  data: {
-    user: {
-      name: 'youngwind',
-      age: 25
-    }
-  }
-});

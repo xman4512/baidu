@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用CSS实现折叠面板</title>
+	<style type="text/css">
+		.main{width: 1000px;padding: 50px;border:2px solid #eeeeee;box-shadow: 10px 10px 5px #888888;border-radius: 10px;}
+		.article1{position: fixed;left: -500px;top: -500px;}
+		label{width: 100%;height: 50px;line-height: 50px;border:2px solid #eeeeee;border-radius: 10px; background-color: rgba(158,158,158,0.5);display: block;
+			text-indent: 10px;font-size: 18px;font-weight: bold;cursor: pointer;}
+		.text1{border:2px solid #eeeeee;border-radius: 10px;height:0;
+				overflow:hidden;transition: height .8s;}
+		.article1:checked + .text1{height: 100px;padding: 50px;}
+	</style>
+</head>
+<body>
+		<div class="main">
+			<div class="item1">
+				
+				<label for="article1">文章一</label>
+				<input type="radio" name="article1" class="article1" id="article1">
+				<div class="text1">
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+				</div>
+			</div>
+			<div class="item2">
+				<label for="article2">文章二</label>
+				<input type="radio" name="article1" class="article1" id="article2">
+				<div class="text1">
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+				</div>
+			</div>
+			<div class="item3">
+				<label for="article3">文章三</label>
+				<input type="radio" name="article1" class="article1" id="article3">
+				<div class="text1">
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+					这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;这是一片很长很长的文章;
+				</div>
+			</div>
+		</div>
+</body>
+</html>

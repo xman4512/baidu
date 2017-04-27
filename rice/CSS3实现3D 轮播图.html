@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CSS3实现3D 轮播图</title>
+	<script type="text/javascript" src="js/until.js"></script>
+	<style type="text/css">
+		img{width: 160px;height: 136px;position:absolute;}
+		.main{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 200px;
+			perspective: 800px;
+		}
+		.box{
+			width: 160px;
+			height: 136px;
+			transform-style: preserve-3d;
+			transition: 2s;
+		}
+		img:nth-child(1){transform:  rotateY(   0deg )  translateZ(158.5px);}
+		img:nth-child(2){transform:  rotateY(   60deg )  translateZ(158.5px);}
+		img:nth-child(3){transform:  rotateY(   120deg )  translateZ(158.5px);}
+		img:nth-child(4){transform:  rotateY(   180deg )  translateZ(158.5px);}
+		img:nth-child(5){transform:  rotateY(   240deg )  translateZ(158.5px);}
+		img:nth-child(6){transform:  rotateY(   300deg )  translateZ(158.5px);}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="box">
+			<img src="img/date01.jpg">
+			<img src="img/date02.jpg">
+			<img src="img/date03.jpg">
+			<img src="img/date04.jpg">
+			<img src="img/date05.jpg">
+			<img src="img/date06.jpg">
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+		var box = document.querySelector('.box');
+		var x = 0;
+		var handler = function () {
+			x = x-60;
+			var y = x +"deg";
+			box.style.transform = 'rotateY('+y+')';
+		}
+		until.addHandle(box,"click",handler);
+</script>
+</html>
