@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>实现树形组件</title>
+	<style type="text/css">
+		.node ul{  
+    margin-left:20px;  
+}  
+.node .node{  
+    display:none;  
+}  
+.node .tree{  
+    height:24px;  
+    line-height:24px;  
+} 
+	</style>
+</head>
+<body>
+		<div class="main">
+			<div class="mian_title">树的目录</div>
+			<div class="nav">
+				<div class="tree">科目1</div>
+				<ul class="node">
+					<li>
+						<div class="tree">科目2</div>
+						<ul class="node">
+							<li>
+								<div class="tree">数学</div>
+								<div class="tree">数学</div>
+								<div class="tree">数学</div>
+								<div class="tree">数学</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+				<div class="tree">科目3</div>
+				<ul class="node">
+					<li>
+						<div class="tree">科目3</div>
+						<ul class="node">
+							<li>
+								<div class="tree">语文</div>
+								<div class="tree">语文</div>
+								<div class="tree">语文</div>
+								<div class="tree">语文</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+</body>	
+<script type="text/javascript">
+	var nodes = [ 	{
+						name: "父节点1", 
+						children: [ 
+									{name: "子节点1"}, 
+									{name: "子节点2"} ]
+					}, 
+					{
+						name: "父节点2", 
+						children: [ 
+										{name: "子节点3"}, 
+										{name: "子节点4", 
+										children:[ 
+													{name:"子节点5"} 
+													]
+										} 
+									]
+					} 
+				];
+</script>
+</html>

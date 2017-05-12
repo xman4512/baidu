@@ -1,73 +1,149 @@
 "use strict";
-/**
- * Created by youngwind on 16/8/18.
- */
+function Observer (data,parent, parentKey) {
+  //暂不考虑数组
+  this.data = data;
+  this.parent = parent;
+  this.parentKey = parentKey;
+  this.makeObserver(data);
+  this.eventsBus = new Event();
+}
 
-let fragment, currentNodeList = [];
-
-exports._compile = function () {
-    fragment = document.createDocumentFragment();
-
-    // 用一个栈来存储遍历过程中当前的父节点
-    currentNodeList.push(fragment);
-
-    this._compileNode(this.$template);
-
-    this.$el.parentNode.replaceChild(fragment, this.$el);
-    this.$el = document.querySelector(this.$options.el);
-};
-
-exports._compileElement = function (node) {
-    let newNode = document.createElement(node.tagName);
-
-    // 处理节点属性
-    if (node.hasAttributes()) {
-        let attrs = node.attributes;
-        Array.from(attrs).forEach((attr) => {
-            newNode.setAttribute(attr.name, attr.value);
-        });
+Observer.prototype.makeObserver = function (obj) {
+  let val;
+  for(let key in obj){
+    if(obj.hasOwnProperty(key)){
+      val = obj[key];
+      //深度遍历
+      if(typeof val === 'object'){
+        new Observer(val,this,key);
+      }
     }
+    this.setterAndGetter(key, val);
+  }
+}
 
-
-    let currentNode = currentNodeList[currentNodeList.length - 1].appendChild(newNode);
-
-    if (node.hasChildNodes()) {
-        currentNodeList.push(currentNode);
-        Array.from(node.childNodes).forEach(this._compileNode, this);
+Observer.prototype.setterAndGetter = function (key, val) {
+  let self = this;
+  Object.defineProperty(this.data, key, {
+    enumerable: true,
+    configurable: true,
+    get: function(){
+      console.log('你访问了' + key);
+      return val;
+    },
+    set: function(newVal){
+      console.log('你设置了' + key);
+      console.log('新的' + key + '=' + newVal);
+      if (self.parent != null) { // 若有父类则会调用父类的监听事件
+        self.parent.eventsBus.emit(self.parentKey, val, newVal); // 父类监听事件
+      }
+      //触发$watch函数
+      self.eventsBus.emit(key, val, newVal);
+       //如果newval是对象的话
+      if(typeof newVal === 'object'){
+        new Observer(val);
+      }
+     if (newVal === val) return;
+      val = newVal
+     
     }
+  })
+}
 
-    currentNodeList.pop();
-};
 
-exports._compileText = function (node) {
-    let nodeValue = node.nodeValue;
 
-    if (nodeValue === '') return;
+Observer.prototype.$watch = function(attr, callback){
+  this.eventsBus.on(attr, callback);
+}
+//实现一个事件
+function Event(){
+  this.events = {};
+}
 
-    let patt = /{{\w+}}/g;
-    let ret = nodeValue.match(patt);
+Event.prototype.on = function(attr, callback){
+  if(this.events[attr]){
+    this.events[attr].push(callback);
+  }else{
+    this.events[attr] = [callback];
+  }
+}
 
-    if (!ret) return;
+Event.prototype.off = function(attr){
+  for(let key in this.events){
+    if(this.events.hasOwnProperty(key) && key === attr){
+      delete this.events[key];
+    }
+  }
+}
 
-    ret.forEach((value) => {
-        let property = value.replace(/[{}]/g, '');
-        nodeValue = nodeValue.replace(value, this.$data[property]);
-    }, this);
+Event.prototype.emit = function(attr, ...arg){
+  this.events[attr] && this.events[attr].forEach(function(item){
+    item(...arg);
+  })
+}
 
-    currentNodeList[currentNodeList.length - 1].appendChild(document.createTextNode(nodeValue));
-};
+function Compiler(options) {
+    this.$el = options.el;
+    this.vm = options.vm;
+    if (this.$el) {
+        this.$fragment = nodeToFragment(this.$el);
+        this.compile(this.$fragment);
+        this.$el.appendChild(this.$fragment);
+    }
+}
 
-exports._compileNode = function (node) {
-    switch (node.nodeType) {
-        // text
-        case 1:
-            this._compileElement(node);
-            break;
-        // node
-        case 3 :
-            this._compileText(node);
-            break;
-        default:
+Compiler.prototype = {
+    compile: function (node, scope) {
+        var self = this;
+        if (node.childNodes && node.childNodes.length) {
+            [].slice.call(node.childNodes).forEach(function (child) {
+                if (child.nodeType === 3) {
+                    self.compileTextNode(child, scope);
+                } else if (child.nodeType === 1) {
+                    self.compileElementNode(child, scope);
+                }
+            });
+        }
+    },
+    compileTextNode: function (node, scope) {
+        var text = node.textContent.trim();
+        if (!text) {
             return;
-    }
-};
+        }
+        var exp = parseTextExp(text);
+        scope = scope || this.vm;
+        this.textHandler(node, scope, exp);
+    },
+    compileElementNode: function (node, scope) {
+        // var attrs = node.attributes;
+        var attrs = [].slice.call(node.attributes);
+        var self = this;
+        scope = scope || this.vm;
+        // [].forEach.call(attrs, function (attr) { // attributes是动态的，会漏点某些属性
+        attrs.forEach(function (attr) {
+            var attrName = attr.name;
+            var exp = attr.value;
+            var dir = checkDirective(attrName);
+            if (dir.type) {
+                var handler = self[dir.type + 'Handler'].bind(self);  // 不要漏掉bind(this)，否则其内部this指向会出错
+                handler && handler(node, scope, exp, dir.prop);
+                node.removeAttribute(attrName);
+            }
+        });
+    },
+}
+
+function parseTextExp(text) {
+    var regText = /\{\{(.+?)\}\}/g;
+    var pieces = text.split(regText);
+    var matches = text.match(regText);
+    var tokens = [];
+    pieces.forEach(function (piece) {
+        if (matches && matches.indexOf('{{' + piece + '}}') > -1) {    // 注意排除无{{}}的情况
+            tokens.push(piece);
+        } else if (piece) {
+            tokens.push('`' + piece + '`');
+        }
+    });
+    return tokens.join('+');
+}
